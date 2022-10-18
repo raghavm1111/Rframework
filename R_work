@@ -1,0 +1,65 @@
+---
+title: "46297286_Raghav"
+output:
+  html_document: default
+  pdf_document: default
+date: "2022-10-11"
+---
+
+```{r setup, include=FALSE}
+library(devtools)
+dt <- read.table(file = "D:/Dataset/mice_pot.txt", header = TRUE)
+str(dt)
+dt$group <- as.factor(dt$group)
+```
+
+
+```{r plots}
+library(tidyr)
+library(ggplot2)
+
+boxplot(group ~ percent_of_act, data = dt, xlab = "Group",
+   ylab = "Percentage of act", main = "VEH")
+```
+
+```{r t-test, echo=FALSE}
+library(tidyverse)
+library(broom)
+
+dt$group <- as.numeric(dt$group)
+t.test(dt$group, dt$percent_of_act, var.equal = TRUE)
+
+```
+
+```{r}
+one.way <- aov(dt$group ~ dt$percent_of_act, data = dt)
+
+```
+
+
+
+
+
+```{r}
+kml_dat <- read_table2("D:/Dataset/kml.dat.txt")
+str(kml_dat)
+```
+
+
+
+```{r}
+hist(kml_dat$kmL)
+plot(as.factor(kml_dat$driver))
+plot(as.factor(kml_dat$car))
+
+```
+
+
+
+```{r}
+t.test(kml_dat$kmL, kml_dat$kmL, var.equal = TRUE)
+t.test(kml_dat$kmL, mu = 2, alternative = 'greater')
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
